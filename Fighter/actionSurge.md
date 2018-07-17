@@ -65,7 +65,7 @@ These are the counters and variables this alias uses to function properly. **Do 
 
 **`!cc "Action Surge"`** - Tracks the uses of Action Surge in a custom counter.
 
-**`!cvar actionSurge`** - Sets the maximum value of Action Surge.
+**`!cvar actionSurge`** - Sets the maximum value of Action Surge counter.
 
 **`!cvar embedimage`** - Enables / disables whether a character's image is automatically embedded.
 
