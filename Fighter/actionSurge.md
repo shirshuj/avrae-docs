@@ -61,7 +61,7 @@ If you are multiclassing and you are not using a DiceCloud sheet, run the follow
 
 ### Variable List
 
-These are the counters and variables this alias uses to function properly. **Do NOT delete them unless you plan to delete the aliases as well.**
+These are the counters and variables this alias uses to function properly. **Do NOT delete them unless you plan to delete the alias as well.**
 
 **`!cc "Action Surge"`** - Tracks the uses of Action Surge in a custom counter.
 
