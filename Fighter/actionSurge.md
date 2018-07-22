@@ -2,7 +2,7 @@
 *By Toothless#7854.*
 
 <p align="center">
-  <img src="https://i.imgur.com/LYyAgYN.png"/>
+  <img src="https://i.imgur.com/2nTQe5P.png"/>
 </p>
 
 Automatically creates "Action Surge" counter if nonexistant. Subtracts 1 from "Action Surge" counter. Automatically increases "Action Surge" uses upon gaining Fighter levels.
@@ -23,16 +23,16 @@ Run the command in the **Code** section. It will automatically setup counters an
 {{set_cvar("showpage", "false") if str(showpage) != "true" else ""}}
 {{set("footer", "Fighter | PHB 72")}}
 {{set("counter", "Action Surge")}}
-{{set("ccMax", actionSurge if exists("actionSurge") else 0)}}
+{{set("ccMax", int(actionSurge) if exists("actionSurge") else 0)}}
 {{set("lvl", int(FighterLevel) if exists("FighterLevel") else level)}}
-{{set("addCounter", 1 if ccMax == "1" and int(lvl) >= 17 else 0)}}
+{{set("addCounter", ccMax <= 1 and int(lvl) >= 17)}}
 {{set_cvar("actionSurge", 1 if lvl < 17 else 2)}}
-{{mod_cc(counter, 1) if addCounter else ""}}
-{{create_cc_nx("Action Surge", 0, "actionSurge", "short", "bubble")}}
+{{create_cc_nx(counter, 0, "actionSurge", "short", "bubble")}}
+{{mod_cc(counter, addCounter)}}
 {{set("valid", 1 if get_cc(counter) > 0 else 0)}}
 {{mod_cc(counter, -1) if valid else ""}}
 -title "{{name}} {{"uses" if valid else "attempted to use"}} {{counter}}!"
--desc "{{"On your turn, you can take one additional action on top of your regular action and a possible bonus action.\n\nOnce you use this feature, you must finish a short or long rest before you can use it again. Starting at 17th level, you can use it twice before a rest, but only once on the same turn." if valid else "Once you use this feature, you must finish a short or long rest before you can use it again. Starting at 17th level, you can use it twice before a rest, but only once on the same turn. (``!g sr``)"}}"
+-desc "{{"On your turn, you can take one additional action on top of your regular action and a possible bonus action." if valid else "Once you use this feature, you must finish a short or long rest before you can use it again. Starting at 17th level, you can use it twice before a rest, but only once on the same turn. (``!g sr``)"}}"
 -f "{{counter}} | {{'◉'*get_cc(counter) + '〇'*(get_cc_max(counter)-get_cc(counter))}}"
 {{"-footer \"" + footer + "\"" if str(showpage) == "true" else ""}}
 {{"-thumb " + str(image) if str(embedimage) == "true" and valid else ""}} 
