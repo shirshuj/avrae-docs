@@ -30,7 +30,7 @@ Run the command in the **Code** section. It will automatically setup cvars.
 -f "Strength Modifier | {{strengthMod}}"
 -f "Running Long Jump | {{strength + strengthMod}} ft."
 {{"-footer \"" + pgSubject + " | " + pgNum + "\"" if str(showpage) == "true" else ""}}
-{{"-thumb " + str(image) if str(embedimage) == "true" and valid else ""}} 
+{{"-thumb " + str(image) if str(embedimage) == "true" else ""}} 
 -color <color>
 ```
 
