@@ -23,7 +23,7 @@ Run the command in the **Code** section. It will automatically setup counters an
 {{set_cvar("showpage", "false") if str(showpage) != "true" else ""}}
 {{set("footer", "Fighter | PHB 72")}}
 {{set("counter", "Action Surge")}}
-{{set("ccMax", int(actionSurge) if exists("actionSurge") else 0)}}
+{{set("ccMax", int(actionSurge) if exists("actionSurge") and actionSurge.isdigit() else 0)}}
 {{set("lvl", int(FighterLevel) if exists("FighterLevel") else level)}}
 {{set("addCounter", ccMax <= 1 and int(lvl) >= 17)}}
 {{set_cvar("actionSurge", 1 if lvl < 17 else 2)}}
