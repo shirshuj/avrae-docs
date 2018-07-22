@@ -41,7 +41,7 @@ Run the command in the **Code** section. It will automatically setup counters an
 {{"-f \"Temporary HP | " + str(temp) + "\"" if valid else ""}}
 -f "{{counter}} | {{'◉'*get_cc(counter) + '〇'*(get_cc_max(counter)-get_cc(counter))}}"
 {{"-footer \"" + pgSubject + " | " + pgNum + "\"" if str(showpage) == "true" else ""}}
-{{"-thumb <image>" if str(embedimage) == "true" else ""}}
+{{"-thumb " + str(image) if str(embedimage) == "true" and valid else ""}} 
 -color <color>
 ```
 
