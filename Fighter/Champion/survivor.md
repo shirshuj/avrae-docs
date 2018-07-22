@@ -32,7 +32,7 @@ Run the command in the **Code** section. It will automatically setup counters an
 -f "Healing Recieved|{{"( " if valid == 0 else ""}}5 + {constitutionMod}{{" ) × 0" if valid == 0 else ""}} = ``{{heal}}``" 
 -f "Hit Points|{{get_hp()}} / {{hp}}" 
 {{"-footer \"" + pgSubject + " | " + pgNum + "\"" if str(showpage) == "true" else ""}}
-{{"-thumb <image>" if str(embedimage) == "true" else ""}}
+{{"-thumb " + str(image) if str(embedimage) == "true" and valid else ""}}
 -color <color>
 ```
 
