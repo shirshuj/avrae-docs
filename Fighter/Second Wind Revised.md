@@ -1,0 +1,10 @@
+**Second Wind, revised**  
+*By Croebh#5603.*  
+Takes max HP into account. The first is for Dicecloud sheets, the second for others. Set up the CC as per the first command.  
+  
+`!cc create "Second Wind" -reset short -max 1 -min 0 -type bubble`  
+  
+```GN  
+!alias second embed {{set('roll', roll('1d10'))}} -title "<name> {{"attempts to take" if get_cc("Second Wind")==0 else "takes"}} a Second Wind" -desc "They pause and take in a deep breath. {{"Nothing seems to happen, however. Perhaps they need to take a short or long rest before trying again?" if get_cc("Second Wind")==0 else "After a moment you see their wounds begin to stitch themselves shut."}}" -f "{{"~~" if get_cc("Second Wind")==0 else ""}}Second Wind heals for: {{"~~|~~" if get_cc("Second Wind")==0 else "|"}} 1d10 ({{"**"+str(roll)+"**" if roll==10 or roll==1 else roll}}) + {{FighterLevel}} = {{roll+FighterLevel}}{{set('healed', roll + currentHp + FighterLevel)}}.{{"~~" if get_cc("Second Wind")==0 else ""}}" -f "Current HP: | {{currentHp if get_cc("Second Wind")==0 else min(hp, healed)}}/{{hp}}{{"" if get_cc("Second Wind")==0 else set_hp(min(hp, healed))}}" -thumb <image> {{"" if get_cc("Second Wind")==0 else mod_cc("Second Wind", -1)}}```GN  
+```GN  
+!alias second embed {{set('roll', roll('1d10'))}} -title "<name> {{"attempts to take" if get_cc("Second Wind")==0 else "takes"}} a Second Wind" -desc "They pause and take in a deep breath. {{"Nothing seems to happen, however. Perhaps they need to take a short or long rest before trying again?" if get_cc("Second Wind")==0 else "After a moment you see their wounds begin to stitch themselves shut."}}" -f "{{"~~" if get_cc("Second Wind")==0 else ""}}Second Wind heals for: {{"~~|~~" if get_cc("Second Wind")==0 else "|"}} 1d10 ({{"**"+str(roll)+"**" if roll==10 or roll==1 else roll}}) + {{level}} = {{roll+level}}{{set('healed', roll + currentHp + level)}}.{{"~~" if get_cc("Second Wind")==0 else ""}}" -f "Current HP: | {{currentHp if get_cc("Second Wind")==0 else min(hp, healed)}}/{{hp}}{{"" if get_cc("Second Wind")==0 else set_hp(min(hp, healed))}}" -thumb <image> {{"" if get_cc("Second Wind")==0 else mod_cc("Second Wind", -1)}}```

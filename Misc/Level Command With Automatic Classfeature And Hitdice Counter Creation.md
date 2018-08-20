@@ -1,0 +1,14 @@
+**Level Command With Automatic ClassFeature and HitDice Counter Creation**  
+By nadizak#5061  
+  
+`!level Barb 12`  
+Sets your class level cvars and then creates custom counters for every one of the class's abilities. Custom counters for all of your hit dice will also be created according to all class levels.  
+You can also use `!level lock 2 hexblade` and it will save and display your subclass for you and create counters for any abilities for that subclass.   
+  
+Dicecloud users should automatically have class levels imported from Dicecloud but subclasses are not automatically set.  
+If there are any issues with the counters created (such as incorrect level, when it resets, or number of uses) feel free to PM them to me.  
+  
+Also Dicecloud hasn't actually been tested with this so results may vary.  
+```python  
+!alias level embed {{a="&*&".split(" ")+["",""]}}{{D=load_json(get_gvar("aefd226b-0ef8-4cd3-a489-e4c415ef8ef3")[1:])}}{{L,C,S,SC,d6,d8,d10,d12,r=D.L,D.C,D.S,D.SC,0,0,0,0,get_raw()}}{{n=int(a[1]) if a[1].isdigit() else -1}}{{c=[i for i in L if a[0].lower() in i.lower()]}}{{c=c[0] if len(c) else ""}}{{e=c not in L or n<0}}{{e or set_cvar(c,n)}}{{v=r.cvars if 'cvars' in r else {} }}{{set_cvar_nx("subclass", dump_json(D.B))}}{{ss=''.join([x for x in ''.join(a[2:]) if x.isalpha()]).lower()}}{{sl=load_json(subclass)}}{{s=[i for i in S[c] if ss in ''.join([x for x in i if x.isalpha()]).lower()] if ss else []}}{{s=s[0] if len(s) else ""}}{{(sl.update({c:s}) or set_cvar("subclass",dump_json(sl))) if s else 0}}{{[[(set_cvar(cc.m,max(int(v[cc.m]) if cc.m in v else 0,cc.c[str(max([y for y in range(int(v[x]),1,-1) if str(y) in cc.c]+[1]))])) if "ccMax" in cc.m else 0) or (delete_cc(cc.n) if cc_exists(cc.n) else 0) or create_cc_nx(cc.n,0,cc.m,(set("z",cc.r.split('-')) or (z[0] if int(v[x])<int(z[1]) else z[2])) if '-' in cc.r else cc.r,cc.t) for cc in C[x]+(SC[x][s] if x==c and s else []) if int(v[x])>=cc.l] for x in L if x in v]}}{{[set("d6",d6+int(v[x])) for x in D.H.d6 if x in v]}}{{[set("d8",d8+int(v[x])) for x in D.H.d8 if x in v]}}{{[set("d10",d10+int(v[x])) for x in D.H.d10 if x in v]}}{{[set("d12",d12+int(v[x])) for x in D.H.d12 if x in v]}}{{d6 and set_cvar("hd6",d6)}}{{d8 and set_cvar("hd8",d8)}}{{d10 and set_cvar("hd10",d10)}}{{d12 and set_cvar("hd12",d12)}}{{[set("h",f"Hit Dice (d{d})") or (delete_cc(h) if cc_exists(h) else 0) or create_cc_nx(h,0,f"hd{d}") for d in D.h if f"hd{d}" in v]}}-title "Level Summary for <name>" -f "Character Level | {{level}}" -f "Class Levels | {{'\n'.join([f'{sl[i]+" " if sl[i] else ""}{i[:-5]}: {v[i]}' for i in L if i in v and v[i]!="0"]) if len([x for x in L if x in v and v[x]!="0"]) else "None"}}" -color <color> -thumb "<image>" -footer "{{D.f}}"  
+```

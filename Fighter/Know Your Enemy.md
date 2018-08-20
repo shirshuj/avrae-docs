@@ -1,0 +1,3 @@
+**Know Your Enemy**  
+Prints out a small embed with all the relevant Know Your Enemy stats, for Battlemaster Fighters. ```GN  
+!alias kye embed -title "<name> uses their Know Your Enemy!" -desc "Starting at 7th level, if you spend at least 1 minute observing or interacting with another creature outside combat, the DM tells you if the creature is your equal, superior, or inferior in regard to two of the following characteristics of your choice: *(PHB 73 - 74)*" -f "STR|{strength}" -f "DEX|{dexterity}" -f "CON|{constitution}" -f "AC|{armor}" -f "HP|<hp>" -f "Level (if any)|{level}" -f "Fighter Level (if any)|{FighterLevel}"```

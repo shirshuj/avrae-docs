@@ -1,0 +1,4 @@
+**Fancy Dragonborn breath weapon**   
+*By Croebh#5603.*   
+```!alias breath embed -title "<name> breathes destructive energy!" -desc "<name> takes a deep breath in, and lets out their frost breath in a 15ft cone. Targets in the cone must make a must make a **DC{constitutionMod+8+proficiencyBonus}** *Constitution Saving throw*. "  
+-f "**DC{constitutionMod+8+proficiencyBonus}** *Constitution Saving throw*: | 2d6 ({{set("a", roll("1d6"))}}{{set("b", roll("1d6"))}}{{"**"+str(a)+"**" if a==6 or a==1 else a}},{{"**"+str(b)+"**" if b==6 or b==1 else b}}) [**Frost**] Damage = `{{a+b}}` *if they Fail* | `{{floor((a+b)/2)}}` *if they Succeed*"```
