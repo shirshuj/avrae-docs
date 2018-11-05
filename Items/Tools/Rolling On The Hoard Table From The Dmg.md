@@ -4,21 +4,16 @@
 Use with `!hoard [cr]` (force a result with `!hoard [cr] [roll]`  
   
 ```  
-!servalias hoard embed {{cr,ttl=int("&1&") if "&1&".isdigit() else 1,0}}  
-{{p=get_gvar('b7e6ad10-f474-4869-be7f-66237b6862fd').split("\n")}}{{r,n,e=vroll("&2&" if "&2"+"&"!="&2&" and "&2&".isdigit() else '1d100'),get_gvar(p[4]).split("\n"),get_gvar(p[5]).split('|')}}  
-{{b=0 if cr<5 else 1 if cr<11 else 2 if cr<17 else 3}}  
-{{h='ABCDEFGHI'}}  
-{{g=get_gvar('b04f792c-7644-451c-bedd-9c536d8150c4').split('\n###\n')}}  
-{{g=[x.split('\n') for x in g]}}  
-{{c=[y for y in [d.split(',') for d in get_gvar(p[b]).split("\n")] if r.total in range(int(y[0]),int(y[1]))]}}{{c=c[0]}}  
--title "Hoard Table for CR {{cr}} ({{'0-4' if b==0 else '5-10' if b==1 else '11-16' if b==2 else '17+'}})"  
--desc "{{r.dice}}"  
--f "Currency|{{"".join([("" if set("u",vroll(k[:-2])) else "")+("" if set("ttl",ttl+(u.total*(10 if k[-2:]=="PP" else 0.5 if k[-2:]=="EP" else 0.1 if k[-2:]=="SP" else 0.01 if k[-2:]=="CP" else 1))) else "")+str(u)[:-1]+" "+k[-2:]+"`\n" if k!='0' else "" for k in n[b].split(',')])+"\n**Total Value:** "+f"{round(float(ttl),2):,}"+" GP"}}"  
-{{rr=[vroll(c[x]) for x in range(2,len(c))]}}  
-{{[str(r) for r in rr]}}  
-{{" ".join([("-f \""+e[i+2]+"|"+str(rr[i])+"\"" if rr[i].total>0 else "") for i in range(11)])}}  
--footer "{{p[6]}}"  
-{{" ".join([(("" if set("lines",[line.split("|") for line in g[i]]) else "")+"-f \""+str(e[13+i])+"|**Number of Rolls:** "+str(rr[11+i])+"\n"+"\n".join([("" if set("r",vroll("1d100")) else "")+str(r)+" - "+"".join([line[2] if int(line[0])<=r.total<int(line[1]) else "" for line in lines]) for j in range(1,rr[11+i].total+1)])+"\"" if rr[11+i].total>0 else "") for i in range(0,len(h))])}}  
+!alias hoard embed {{cr,r,g,t=max(0,int("&1&")) if "&1&".isdigit() else 1,vroll(('1d100' if '&2&'=='&2'+'&' else '&2&')),load_json(get_gvar('2c232804-aac9-4195-a5d9-d35f7315f6c4')),0}}{{b=0 if cr in range(5) else 1 if cr in range(5,11) else 2 if cr in range(11,17) else 3}} -footer "{{g['footer']}}" {{g,G=g['hoard'],g['magicItems']}}
+-title "Hoard Table for CR {{cr}} ({{'0-4' if b==0 else '5-10' if b==1 else '11-16' if b==2 else '17+'}}) - {{r.dice}}"
+{{c={i:vroll(g[5][b][i]) for i in g[5][b] if g[5][b][i]} }}
+-f "Currency|{{'\n'.join([f"{c[i].dice} = `{c[i].total:,} {i.upper()}`" for i in c])}}
+{{k=[set('t',t+(c[x].total*(0.01 if x=='cp' else 0.1 if x=='sp' else 0.5 if x=='ep' else 10 if x=='pp' else 1))) for x in c]}}Total = `{{f"{round(t,2):,}"}} GP`"
+{{B=g[b][[g[b].index(i) for i in g[b] if int(i[0])<=r.total<int(i[1])][0]]}}
+{{N=[f"-f '{g[4][x]}|{vroll(B[x])}'" for x in range(2,13) if B[x]]}}{{''.join(N)}}
+{{M={g[4][x]:vroll(B[x]) for x in range(13,22) if B[x]} }}
+
+{{O='\n'}}
+{{MM={z:[("" if set("v",vroll("1d100")) else "")+f"1d100 = `{str(v.total):0>2}` - "+"".join([m.name if m.min<=v.total<m.max else "" for m in G[z[-1]]]) for i in range(1,M[z].total+1)] for z in M} }}
+{{'\n'.join([f" -f '{z}|{'**Number of Rolls:** '+str(M[z])+O if M[z].total>1 else ''}{O.join(MM[z])}'" for z in MM])}}
 ```  
-  
-Still adding features so stay tuned for updates!
