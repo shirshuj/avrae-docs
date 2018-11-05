@@ -1,5 +1,5 @@
-# Ammunition
-*By Toothless#7854.*
+# Ammunition, Arrows and Bolts
+*By Toothless#7854. Redone by Croebh*
 
 <p align="center">
   <img src="https://i.imgur.com/e06lm9q.png"/>
@@ -9,79 +9,96 @@
   <img src="https://i.imgur.com/dXi20mT.png"/>
 </p>
 
-``ammo`` subtracts 1 from "Ammo" counter and adds 1 to "Used Ammo" counter on attack. ``!collect`` adds half of "Used Ammo" counter to "Ammo", then sets "Used Ammo" to 0. 
+``ammo`` subtracts 1 from "Ammo" counter and adds 1 to "Used Ammo" counter on attack. ``!collect ammo`` adds half of "Used Ammo" counter to "Ammo", then sets "Used Ammo" to 0. 
+
+
+``arrow`` subtracts 1 from "Arrows" counter and adds 1 to "Used Arrows" counter on attack. ``!collect arrow`` adds half of "Used Arrows" counter to "Arrows", then sets "Used Arrows" to 0. 
+
+
+``bolt`` subtracts 1 from "Bolts" counter and adds 1 to "Used Bolts" counter on attack. ``!collect bolt`` adds half of "Used Bolts" counter to "Bolts", then sets "Used Bolts" to 0. 
 
 ### Usage
 
-``![attack|a] [atk_name=list] ammo``
+``![attack|a] [atk_name=list] ammo``  
+``![attack|a] [atk_name=list] arrow``  
+``![attack|a] [atk_name=list] bolt``
 
-``!collect``
+``!collect [arrow|bolt|ammo]``
 
 ### Setup
 Run the snippet or the alias in the **Code** section. It will automatically setup counters. 
 
-**WARNING: Do NOT use -rr, as the snippet will only subtract ONE arrow, not multiple. If you do use -rr, you can manually adjust your counters to fix it.**
+**WARNING: Do NOT use -rr, as the snippet will only subtract ONE ammo, not multiple. If you do use -rr, you can manually adjust your counters to fix it.**
 
-``!cc Ammo -[arrows_used]``
+``!cc Ammo -[ammo_used]``  
+``!cc Arrows -[arrows_used]``  
+``!cc Bolts -[bolts_used]``
 
-``!cc "Ammo Used" +[arrows_used]``
+``!cc "Ammo Used" +[ammo_used]``  
+``!cc "Arrows Used" +[arrows_used]``  
+``!cc "Bolts Used" +[bolts_used]``
 
 ### Code
 ```GN
-!snippet ammo
-{{set_cvar_nx("showpage", "true")}}
-{{set_cvar("showpage", "false") if str(showpage) != "true" else ""}}
-{{set("pgNum", "PHB 146")}}
-{{set("counter", "Ammo")}}
-{{set("counter2", "Used Ammo")}}
-{{set("existsAmmo", cc_exists(counter))}}
-{{create_cc_nx(counter, 0)}}
-{{create_cc_nx(counter2, 0)}}
-{{"" if existsAmmo else set_cc(counter, 20)}}
-{{set("valid", 1 if get_cc(counter) > 0 else 0)}}
-{{mod_cc(counter, -1) if valid else ""}}
-{{mod_cc(counter2, 1) if valid else ""}}
-{{"" if valid else "-immune a -immune e -immune i -immune o -immune u"}}
-{{"" if valid else "-phrase \"**Ammunition.** You can use a weapon that has the ammunition property to make a ranged attack only if you have ammunition to fire from the weapon." + (" (" + pgNum + ") " if str(showpage) == "true" else "") + "\""}}
--f "{{counter}} ⏐ {{counter2}} | {{get_cc(counter)}} ⏐ {{get_cc(counter2)}}"
+!snippet arrow {{c='Arrows'}}
+{{v,C=cc_exists(c),'Used '+c}}
+{{create_cc_nx(c, 0)}}
+{{create_cc_nx(C, 0)}}
+{{"" if v else set_cc(c, 20)}}
+{{v=1 if get_cc(c) > 0 else 0}}
+{{mod_cc(c, -1) if v else ""}}
+{{mod_cc(C, 1) if v else ""}}
+{{"" if v else "miss"}}
+{{"" if v else '-f "Ammunition|You can use a weapon that has the ammunition property to make a ranged attack only if you have ammunition to fire from the weapon. (PHB 146)"'}}
+-f "{{c}} ⏐ {{C}} | {{get_cc(c)}} ⏐ {{get_cc(C)}}"
+```
+
+```GN
+!snippet bolt {{c='Bolts'}}
+{{v,C=cc_exists(c),'Used '+c}}
+{{create_cc_nx(c, 0)}}
+{{create_cc_nx(C, 0)}}
+{{"" if v else set_cc(c, 20)}}
+{{v=1 if get_cc(c) > 0 else 0}}
+{{mod_cc(c, -1) if v else ""}}
+{{mod_cc(C, 1) if v else ""}}
+{{"" if v else "miss"}}
+{{"" if v else '-f "Ammunition|You can use a weapon that has the ammunition property to make a ranged attack only if you have ammunition to fire from the weapon. (PHB 146)"'}}
+-f "{{c}} ⏐ {{C}} | {{get_cc(c)}} ⏐ {{get_cc(C)}}"
+```
+
+```GN
+!snippet ammo {{c='Ammo'}}
+{{v,C=cc_exists(c),'Used '+c}}
+{{create_cc_nx(c, 0)}}
+{{create_cc_nx(C, 0)}}
+{{"" if v else set_cc(c, 20)}}
+{{v=1 if get_cc(c) > 0 else 0}}
+{{mod_cc(c, -1) if v else ""}}
+{{mod_cc(C, 1) if v else ""}}
+{{"" if v else "miss"}}
+{{"" if v else '-f "Ammunition|You can use a weapon that has the ammunition property to make a ranged attack only if you have ammunition to fire from the weapon. (PHB 146)"'}}
+-f "{{c}} ⏐ {{C}} | {{get_cc(c)}} ⏐ {{get_cc(C)}}"
 ```
 
 ```GN
 !alias collect embed
-{{set_cvar_nx("embedimage", "true")}}
-{{set_cvar("embedimage", "false") if str(embedimage) != "true" else ""}}
-{{set_cvar_nx("showpage", "true")}}
-{{set_cvar("showpage", "false") if str(showpage) != "true" else ""}}
-{{set("pgSubject", "Weapons")}}
-{{set("pgNum", "PHB 146")}}
-{{set("counter", "Ammo")}}
-{{set("counter2", "Used Ammo")}}
-{{set("existsAmmo", cc_exists(counter))}}
-{{create_cc_nx(counter, 0)}}
-{{create_cc_nx(counter2, 0)}}
-{{"" if existsAmmo else set_cc(counter, 20)}}
-{{set("used", max(0, get_cc(counter2)))}}
-{{set("ammoRoll", vroll(str(get_cc(counter)) + " + (" + str(used) + " / 2)"))}}
-{{set("valid", used != 0)}}
-{{set_cc(counter, ammoRoll.total)}}
-{{set_cc(counter2, 0)}}
--title "<name> {{"collects" if valid else "attempted to collect"}} their ammunition!"
--desc "{{"At the end of the battle, you can recover half your expended ammunition by taking a minute to search the battlefield." if valid else "You do not have any expended ammunition to recover."}}"
-{{"-f \"" + counter2 + " | " + str(used) + "\"" if valid else ""}}
-{{"-f \"" + counter + " | " + str(ammoRoll) + "\"" if valid else ""}}
-{{"-footer \"" + pgSubject + " | " + pgNum + "\"" if str(showpage) else ""}}
-{{"-thumb " + str(image) if str(embedimage) == "true" else ""}}
+{{c='Arrows' if '&' in '&1&' else 'Bolts' if '&1&'.lower() in 'bolts' else 'Arrow' if '&1&'.lower() in 'arrows' else 'Ammo'}}
+{{v,C=cc_exists(c),'Used '+c}}
+{{create_cc_nx(c, 0)}}
+{{create_cc_nx(C, 0)}}
+{{"" if v else set_cc(c, 20)}}
+{{u=max(0,get_cc(C))}}
+{{r=vroll(f"{get_cc(c)}+({u}/2)")}}
+{{v=u!=0}}
+{{set_cc(c, r.total)}}
+{{set_cc(C, 0)}}
+-title "<name> {{"collects" if v else "attempted to collect"}} their ammunition!"
+-desc "{{"At the end of the battle, you can recover half your expended ammunition by taking a minute to search the battlefield." if v else "You do not have any expended ammunition to recover."}}"
+
+{{"-f \"" + C + " | " + str(u) + "\"" if v else ""}}
+{{"-f \"" + c + " | " + str(r) + "\"" if v else ""}}
+-footer "Weapons | PHB 146"
 -color <color>
+-thumb <image>
 ```
-
-### Personalization Options
-
-**``!alias $alias_name$ embed...``** - Changes the name to run the command. Replace ``collect`` in the command in the **Code** section.
-
-**``!csettings color $hex$``** - Colors all embeds this color. Replace ``$hex$`` with a hex code. Do not include the hashtag (#).
-
-**``!cvar embedimage true / false``** - Enables / disables whether a character's image is automatically embedded.
-
-**``!cvar showpage true / false``** - Enables / disables whether subjects and page numbers are displayed.
-
-**``!snippet $snippet_name$ ...``** - Changes the name to run the command. Replace ``ammo`` in the command in the **Code** section.
