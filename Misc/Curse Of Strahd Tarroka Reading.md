@@ -11,22 +11,12 @@ Hokay, so this ones a bit of a doozy. Will do each of the 5 Tarroka card reading
 `!tarroka 4` for Strahd's Enemy  
 `!tarroka 5` for Strahd  
 ```python  
-!alias tarroka embed   
-{{set('c',int('%1%') if '%1%'!='%1'+'%' else 1)}}  
-{{set('cardimg', get_gvar('8f1d64f3-4dfa-4704-a72c-66608f414b0c').split('\n'))}}   
-{{set('tarrotread', get_gvar('259d318b-6de4-4642-8102-5e963437a2db').split('\n'))}}   
-{{set('tarrotname', get_gvar('d1371695-5691-4185-9f09-14ed9ddad782').split('\n'))}}   
-{{set("verbose","first" if c == 1 else "second" if c == 2 else "third" if c == 3 else "fourth" if c == 4 else "fifth")}}  
-{{set("card",vroll("1d40").total if c <= 3 else vroll("1d14").total)}}  
-{{set("namenum",card if c <= 3 else card+40)}}  
-{{set("descnum",card if c <= 3 else card+40 if c == 4 else card+54)}}  
-{{set("img", "http://i.imgur.com/"+str(cardimg[card])+".jpg" if c <= 3 else "http://i.imgur.com/"+str(cardimg[card+40])+".jpg")}}  
-{{set("descvar",get_gvar('d48590b0-0739-4ca7-a00c-cffc49f851f6'))}}  
-{{set("carddesc", descvar.split('\n'))}}  
--title "Madam draws the {{verbose}} card... the {{tarrotname[namenum]}}"  
--desc "{{tarrotread[c]}}  
-  
-{{carddesc[descnum]}}"  
--image "{{img}}"  
+!alias tarroka embed {{g,c,v=load_json(get_gvar('ef3e5dd9-17eb-427d-b1af-dee8fa801c23')),min(max(int('%1%'),1),5) if '%1%'!='%1'+'%' else 1, ["first","second","third","fourth","fifth"]}}{{r=roll(f'1d{40 if c<=3 else 14}-1')}}{{d,D='common' if c<=3 else 'high','desc' if c<= 3 else 'descE' if c==4 else 'descS'}}
+-title "Madam draws the {{v[c-1]}} card... the {{g[d][r]['name']}}"
+-desc "{{g['drawDesc'][c-1]}}
+
+{{g[d][r][D]}}"
+-image "{{f"http://i.imgur.com/{g[d][r]['image']}.jpg"}}"
+-footer "Tarroka Reading | CoS 11 | !tarroka # - Select which card reading, from 1-5." 
 ```  
 ![Alias Preview](https://cdn.discordapp.com/attachments/339575411480592384/392523524041998347/unknown.png)
