@@ -1,0 +1,12 @@
+# Potions of All Kinds
+*By @Derixyleth#0636*
+
+Covers all the potions, oils, and ointment in the DMG.
+
+### Setup
+No setup required
+
+### Code
+```GN
+!alias potion embed {{c,g,a,X,T=combat(),load_json(get_gvar("72323e4c-a753-4dff-bc6f-cf13bc55b68f")),"&*&".lower(),"Exhaustion","tempexh"}}{{x=[x for x in g[4:] if a in x.name.lower()]if a else""}}{{x=x[0] if x else ""}}{{n=x.name if x else ''}}{{set_cvar("PoLT",int(PoLT)+1 if exists("PoLT") else 0) if n=="Longevity" else (set_cc(X,0) if cc_exists(X) else '',set_cvar(T,0) if exists(T) else '') if n=="Vitality" else set_temphp(10) if n=="Heroism" else ''}}{{proll=vroll("d100")}}{{lok,sb=int(proll.total)>(int(PoLT)*10) if exists("PoLT")else'',str(max(0,floor((x.ST-strength)/2))) if "ST" in x else''}}}}{{heal=vroll(x.h) if "Heal" in n or "Oint" in n else 0}}{{plist=[i.name for i in g[4:]]}}{{plist.sort()}}{{plist[len(plist)-1]="or "+plist[len(plist)-1]}}{{c.me.add_effect(x.n,x.f.replace("SB",sb),x.d) if x and x.n and c else ''}}{{set_hp(min(hp,heal.total+get_hp())) if heal else ''}} -title "<name> {{('applies'if'oil'in x.desc or'ointm'in x.desc else'drinks') if x else 'searches for'}} a{{('n oil'if'oil'in x.desc else' dose'if'ointm'in x.desc else' potion')if x else' potion'}} of {{x.name if x else a.title() if a else'an unspecified type'}}!" {{x.desc if x else'-desc "'+((g[0]if a else g[1])+g[2]+', '.join(plist))+'"'}} {{'-f "Healing|'+str(heal)+'"' if heal else '-f "Duration|'+(str(vroll(x.dur[:4]))+x.dur[4:]if 'd' in x.dur else x.dur)+'"' if 'dur' in x else '-f "Age Change|You grow '+str(vroll(x.gev))+' years '+('younger' if lok else 'older')+'!" -f "Chance of Being Aged|'+str(int(PoLT)*10)+'%"'+(' -f "Roll|'+str(proll)+'"' if int(PoLT)>0 else '') if 'gev' in x else ''}}{{(' -f "'+X+'|'+cc_str(X)+'"' if cc_exists(X) else '')+(' -f "Temporary '+X+'|'+'〇'*6+'"' if exists(T) else '') if n=="Vitality" else ''}} {{'-f "Hit Points|'+str(get_hp())+'/'+str(hp)+'"' if heal else ''}} -color 0xdd0000 -thumb {{g[3]}}
+```
