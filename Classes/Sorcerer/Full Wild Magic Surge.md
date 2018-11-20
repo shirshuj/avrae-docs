@@ -13,9 +13,11 @@ You can roll your surges with:
 
 ```  
 !alias tides embed -title "Wild Magic Surge!" -desc "  
-{{set("st",(get_gvar("87228cfb-43b6-4cd4-ac2e-14b59db149c0").split("|")))}}{{set("n",roll("1d50"))}}{{str((n*2)-roll("1d2-1"))+": "}}{{st[n-1]}}"```  
-And, since it's rather easy to do now that the main part of the code is written, here's a function that lets you search for what a number will result in on the table by doing `!searchsurge <NUMBER>`  
+{{set("st",(get_gvar("87228cfb-43b6-4cd4-ac2e-14b59db149c0").split("|")))}}{{set("n",roll("1d50"))}}{{str((n*2)-roll("1d2-1"))+": "}}{{st[n-1]}}"
 ```  
+
+And, since it's rather easy to do now that the main part of the code is written, here's a function that lets you search for what a number will result in on the table by doing `!searchsurge <NUMBER>`  
+
 
 ```
 !alias searchsurge embed -title "Wild Magic Surge!" -desc "  
