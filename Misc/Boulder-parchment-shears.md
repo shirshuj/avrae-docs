@@ -6,7 +6,7 @@ Lets a player throw a random choice in Bolder-parchment-shears (AKA Rock–paper
 For reference, the rules are:
 
 1. At least two players must throw a choice. Then the choies are compared.
-2. Boulder crushes shears, shears cuts parchement, and parchment covers boulder.
+2. Boulder crushes shears, shears cuts parchment, and parchment covers boulder.
 3. If players throw the same result, it's a tie, and usually they re-throw.
 
 ### Usage
