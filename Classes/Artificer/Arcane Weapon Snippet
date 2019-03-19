@@ -1,0 +1,11 @@
+# Arcane Weapon
+
+*By shirshuj*
+
+A snippet for adding the extra d6 damage and some text to the attack description. 
+
+### Code
+
+```
+!snippet arcane -d "1d6 [acid, cold, fire, lightning, poison, or thunder]" -f "Arcane Weapon | The user channels arcane energy into one simple or martial weapon she’s holding, and choses one damage type: *acid, cold, fire, lightning, poison,* or *thunder*. Until the spell ends, attacks made with this weapon deal an extra 1d6 damage of the chosen type to any target hit with the weapon. If the weapon isn't magical, it becomes a magic weapon for the spell's duration. As a bonus action, the damage type can be changed, choosing from the options above." -title "[charname] uses arcane weapon with a [aname] at [target]"  
+```
